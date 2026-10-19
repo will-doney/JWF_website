@@ -18,7 +18,34 @@ The site's job is to turn visitors into quote requests and phone calls. Every pa
 | Brand | Existing logo kept. Black and white stay the core colours. |
 | Copy rules | No "family-run" wording. No invented facts: anything not yet supplied by the company is a visible placeholder. |
 
-The old site (http://www.johnsonwright.com) can't be reached from the build environment, and its code isn't available. It is replaced, not migrated. Its wording is reused where the company approves it.
+## 1a. Audit of the old site
+
+http://www.johnsonwright.com was crawled on 19 October 2026. It has 6 pages: `/`, `/work/`, `/where-we-work/`, `/contact/`, `/terms/`, `/privacy-and-cookies/`. Its source code isn't available, so it is replaced, not migrated.
+
+**Stack**: ASP.NET WebForms with jQuery and Modernizr, built by onebestway.
+
+**Problems**
+
+| Area | Issue |
+| --- | --- |
+| Security | No HTTPS. Browsers mark the site "Not secure", and Google ranks it lower. |
+| Mobile | No viewport tag, so phones show a shrunk desktop page. |
+| SEO | Empty meta descriptions, no H1 headings, no `robots.txt`, no `sitemap.xml`, no structured data. Titles are just "Work \| Johnson Wright". |
+| Accessibility | Most images have empty or wrong alt text (every homepage photo is labelled "Cinema"). |
+| Images | Project photos are tiny (largest 385 × 500px) with heavy filters and vignettes. Each image is loaded twice (grey and colour versions). |
+| Tracking | Old Google Analytics code (UA-34805963-1). Universal Analytics stopped collecting data in July 2023, so it does nothing. It also contradicts the privacy notice, which says the site uses no cookies. |
+| Content | 18 projects all sit on one page in pop-ups, so Google can't index them individually. No service pages. The page of 35 countries is just a list. |
+| Contact | Lists a fax number. The enquiry form's handling can't be checked from outside. |
+
+**Keep**
+- The welcome copy and the "Setting the standards of customer care" / "International standards, delivered with a local service" wording, minus "family run".
+- All 18 project write-ups (brief + what was done). These are strong, specific case studies.
+- The construction and accreditations text: CSCS-carded installers with Site Supervisor and First Aid qualifications; CHAS, Constructionline, SafeContractor and Achilles Building Confidence approval. *Company must confirm these are all current.*
+- The list of 35 countries worked in.
+- Supported charities: MediCinema, St Oswald's Hospice, The Cyrenians. *To confirm.*
+- Email: sales@johnsonwright.com. Legal name: Johnson Wright (Flooring) Limited.
+
+**Replace**: every photo (originals needed), the privacy notice (rewrite for the new form, Supabase and Resend), all page structure and code.
 
 ## 2. Sitemap
 
@@ -37,11 +64,25 @@ The old site (http://www.johnsonwright.com) can't be reached from the build envi
 | `/contact` | Contact | Map link, hours, phone, email, short form |
 | `/faq` | FAQ | Common questions (FAQPage structured data) |
 | `/privacy` | Privacy policy | UK GDPR |
+| `/terms` | Terms and conditions | Carried over from the old site, after the company confirms it is current |
 | `/cookies` | Cookie notice | Explains the site uses no tracking cookies |
 | `/quote/thank-you` | Confirmation | After a successful enquiry |
 | 404 | Not found | Helpful links back to services and quote |
 
-Old URLs get 301 redirects to their nearest new page. The old URL list is still needed (see section 9).
+**301 redirects from the old site** (with and without the trailing slash, and from `http://` and non-`www`):
+
+| Old URL | New URL |
+| --- | --- |
+| `/work/` | `/projects` |
+| `/where-we-work/` | `/areas` |
+| `/contact/` | `/contact` |
+| `/terms/` | `/terms` |
+| `/privacy-and-cookies/` | `/privacy` |
+| `/default.aspx` | `/` |
+
+**Projects from the old site** (18, each becomes its own `/projects/[slug]` page): Bespoke hotel fitting, American diner, 5* hotel foyer and staircase, Cinema multiplex (bespoke carpet), 4* city centre hotel staircase, Prestigious clothing store (engineered timber), Cinema multiplex (carpet and vinyl), Further education (Centre for Fundamental Physics), NHS office (5,000m² carpet tiles), 5* hotel in Frankfurt (bespoke Axminster), University premises corridor, Major North East department store, Major London multiplex, Health club chain, Shopping centre in Portugal, Hospice. Plus the Construction and Hotel & Leisure capability write-ups, which feed the Contractors and Sectors pages.
+
+**Sectors** (from the old site's project labels): Hotel & Leisure, Cinema, Restaurant, Retail, Education, Public Sector and Healthcare, Health & Fitness, Construction.
 
 ## 3. Page outlines
 
@@ -148,6 +189,4 @@ Each phase ends with lint, type-check, tests and a production build passing, the
 - Supabase project (later, phase 4).
 - Resend account (phase 4), plus access to the domain's DNS to verify sending.
 - Cloudflare account for Turnstile and Web Analytics (phase 4/5).
-- A list of the old site's page addresses for redirects, or allow `www.johnsonwright.com` in this environment's network settings so I can read it.
-
-**From the company:** the information request document (contact email, services, projects, photos, accreditations, reviews, domain access). Placeholders cover anything missing until it arrives.
+**From the company:** the information request document. The old site already answered some of it (email, projects, countries, accreditations, charities), so those only need confirming. The biggest gap is **original, full-size project photos**. The old site's copies are too small and too heavily filtered to use beyond temporary placeholders.
