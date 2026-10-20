@@ -2,7 +2,7 @@
 
 Status: **draft for approval**. Nothing gets built until this plan is approved.
 
-The site's job is to turn visitors into quote requests and phone calls. Every page ends with a clear way to do both.
+The site's job is to turn visitors into enquiries and phone calls. Every page ends with a clear way to do both. The main button everywhere reads **Get in contact**.
 
 ## 1. Decisions so far
 
@@ -11,12 +11,14 @@ The site's job is to turn visitors into quote requests and phone calls. Every pa
 | Framework | Next.js (App Router) + TypeScript (strict) + Tailwind CSS. Pages are statically generated. |
 | Hosting | Netlify (free plan allows commercial sites). Deploys automatically from `main`. |
 | Content editing | Structured files in `content/` (JSON + MDX), edited by Will. No CMS for now. |
-| Quote form email | Resend: enquiry to the office, confirmation to the customer. |
+| Enquiry form email | Resend: enquiry to the office, confirmation to the customer. |
 | Lead backup | Supabase: every enquiry is saved to the database *before* any email is sent. |
 | Spam protection | Honeypot field + rate limiting + Cloudflare Turnstile. |
 | Analytics | Cloudflare Web Analytics (no cookies, so no consent banner needed). *Assumed, please confirm.* |
 | Brand | Existing logo kept. Black and white stay the core colours. |
 | Copy rules | No "family-run" wording. No invented facts: anything not yet supplied by the company is a visible placeholder. |
+| Client confidentiality | No client names, logos or identifiable venues anywhere on the site, so competitors can't use it to poach clients. Projects are described by type and region only (e.g. "5* hotel, Frankfurt"). Testimonials, if used, are credited by role and sector only. Photos are checked for visible client logos or signage, which get cropped or blurred. |
+| Team | No "meet the team" section. |
 
 ## 1a. Audit of the old site
 
@@ -51,7 +53,7 @@ http://www.johnsonwright.com was crawled on 19 October 2026. It has 6 pages: `/`
 
 | URL | Page | Purpose |
 | --- | --- | --- |
-| `/` | Home | What we do and where, quote CTA, services, projects, trust, areas |
+| `/` | Home | What we do and where, Get in contact button, services, projects, trust, areas |
 | `/services` | Services overview | All services, links to each service page |
 | `/services/[slug]` | One page per service | Key SEO pages (e.g. `/services/carpet-tiles`, `/services/safety-flooring`) |
 | `/sectors` | Sectors | Cinemas, hotels, restaurants, kitchens, banks, retail, schools, gyms, heritage |
@@ -59,15 +61,14 @@ http://www.johnsonwright.com was crawled on 19 October 2026. It has 6 pages: `/`
 | `/projects/[slug]` | Project case study | Photos, brief, flooring used, size, sector, location |
 | `/contractors` | Commercial / contractors | For main contractors, fit-out firms, architects and facilities managers |
 | `/areas` | Areas covered | One page. Individual location pages only if there is real content for each. |
-| `/about` | About | Company story since 1997, team, values |
-| `/quote` | Quote request | The full quote form |
-| `/contact` | Contact | Map link, hours, phone, email, short form |
+| `/about` | About | Company story since 1997, values, accreditations |
+| `/contact` | Contact | The enquiry form, phone, email, hours, map link |
 | `/faq` | FAQ | Common questions (FAQPage structured data) |
 | `/privacy` | Privacy policy | UK GDPR |
 | `/terms` | Terms and conditions | Carried over from the old site, after the company confirms it is current |
 | `/cookies` | Cookie notice | Explains the site uses no tracking cookies |
-| `/quote/thank-you` | Confirmation | After a successful enquiry |
-| 404 | Not found | Helpful links back to services and quote |
+| `/contact/thank-you` | Confirmation | After a successful enquiry |
+| 404 | Not found | Helpful links back to services and contact |
 
 **301 redirects from the old site** (with and without the trailing slash, and from `http://` and non-`www`):
 
@@ -80,40 +81,40 @@ http://www.johnsonwright.com was crawled on 19 October 2026. It has 6 pages: `/`
 | `/privacy-and-cookies/` | `/privacy` |
 | `/default.aspx` | `/` |
 
-**Projects from the old site** (18, each becomes its own `/projects/[slug]` page): Bespoke hotel fitting, American diner, 5* hotel foyer and staircase, Cinema multiplex (bespoke carpet), 4* city centre hotel staircase, Prestigious clothing store (engineered timber), Cinema multiplex (carpet and vinyl), Further education (Centre for Fundamental Physics), NHS office (5,000m² carpet tiles), 5* hotel in Frankfurt (bespoke Axminster), University premises corridor, Major North East department store, Major London multiplex, Health club chain, Shopping centre in Portugal, Hospice. Plus the Construction and Hotel & Leisure capability write-ups, which feed the Contractors and Sectors pages.
+**Projects from the old site** (18, each becomes its own `/projects/[slug]` page): Bespoke hotel fitting, American diner, 5* hotel foyer and staircase, Cinema multiplex (bespoke carpet), 4* city centre hotel staircase, Prestigious clothing store (engineered timber), Cinema multiplex (carpet and vinyl), University physics centre reception, NHS office (5,000m² carpet tiles), 5* hotel in Frankfurt (bespoke Axminster), University premises corridor, Major North East department store, Major London multiplex, Health club chain, Shopping centre in Portugal, Hospice. Plus the Construction and Hotel & Leisure capability write-ups, which feed the Contractors and Sectors pages. All are already anonymous except the physics centre, which is renamed above.
 
 **Sectors** (from the old site's project labels): Hotel & Leisure, Cinema, Restaurant, Retail, Education, Public Sector and Healthcare, Health & Fitness, Construction.
 
 ## 3. Page outlines
 
 **Home**
-1. Hero: headline naming the work and the place ("Commercial flooring contractors in Gateshead and the North East"), *Get a free quote* button, tap-to-call number, large project photo.
+1. Hero: headline naming the work and the place ("Commercial flooring contractors in Gateshead and the North East"), *Get in contact* button, tap-to-call number, large project photo.
 2. Proof strip: since 1997, sectors served, worldwide projects, accreditations (when supplied).
 3. Services overview: a featured layout, not a uniform card grid.
 4. Recent projects: 3 to 4 large photos.
 5. Sectors served.
-6. Testimonial or Google reviews (real only).
+6. Google reviews or testimonials (real only, credited by role and sector, never by client name).
 7. Areas covered.
-8. Quote CTA band.
+8. Get in contact band.
 
 **Service page** (one template, content from `content/services/*.mdx`)
-Hero photo, what it is, where it suits (sectors), benefits, products/brands used, related projects, FAQs for that service, quote CTA. Service and BreadcrumbList structured data.
+Hero photo, what it is, where it suits (sectors), benefits, products/brands used, related projects, FAQs for that service, Get in contact button. Service and BreadcrumbList structured data.
 
 **Projects**: filter chips (flooring type, sector), responsive image grid, case-study pages with before/after slider where pairs exist.
 
 **Contractors**: how the company works with main contractors (programme, out-of-hours working, RAMS, accreditations, insurance), relevant projects, direct contact.
 
-**About**: story, team grid, premises photo, accreditations.
+**About**: story, values, premises photo, accreditations, supported charities.
 
-**Quote form**: see section 5.
+**Contact**: enquiry form (section 5), phone, email, hours, map link.
 
 ## 4. Components
 
-`Button`, `Section`, `Container`, `Heading`, `Eyebrow`, `ServiceCard`, `ServiceFeature`, `ProjectCard`, `ProjectGallery` + `FilterChips`, `BeforeAfter`, `Testimonial`, `ReviewSummary`, `TrustStrip`, `CtaBand`, `QuoteForm`, `ContactDetails`, `OpeningHours`, `Breadcrumbs`, `SiteHeader`, `SiteFooter`, `MobileActionBar` (sticky call/quote bar on phones), `Placeholder` (visible marker for missing text or images, so nothing invented ships by accident).
+`Button`, `Section`, `Container`, `Heading`, `Eyebrow`, `ServiceCard`, `ServiceFeature`, `ProjectCard`, `ProjectGallery` + `FilterChips`, `BeforeAfter`, `Testimonial`, `ReviewSummary`, `TrustStrip`, `CtaBand`, `EnquiryForm`, `ContactDetails`, `OpeningHours`, `Breadcrumbs`, `SiteHeader`, `SiteFooter`, `MobileActionBar` (sticky Call / Get in contact bar on phones), `Placeholder` (visible marker for missing text or images, so nothing invented ships by accident).
 
 Business details (name, address, phone, hours) live in one file, `content/business.ts`, and every page reads from it. That keeps name, address and phone identical everywhere, which Google checks.
 
-## 5. Quote form and enquiry flow
+## 5. Enquiry form and flow
 
 **Fields**: name, email, phone, preferred contact method, company (optional), site postcode, property/sector type, flooring type(s), approximate area (m²) or number of rooms, timescale, message, optional photos/plans (up to 3 files, 10 MB each, images or PDF), consent checkbox for the privacy policy.
 
@@ -142,7 +143,7 @@ Two directions are mocked up for you to pick from before the homepage is built. 
 - Type: Schibsted Grotesk (headings) + Public Sans (body).
 - Spacing: same scale. Radius 2px. One soft shadow for raised elements only.
 
-Both directions: mobile-first, sticky call/quote bar on phones, 48px minimum tap targets, subtle motion that switches off for people who prefer reduced motion.
+Both directions: mobile-first, sticky Call / Get in contact bar on phones, 48px minimum tap targets, subtle motion that switches off for people who prefer reduced motion.
 
 ## 7. Standards
 
@@ -152,14 +153,14 @@ Both directions: mobile-first, sticky call/quote bar on phones, 48px minimum tap
 - **Security**: CSP, HSTS, X-Content-Type-Options, Referrer-Policy and Permissions-Policy headers via `netlify.toml`; server-side validation; secrets in environment variables only; Dependabot for dependency updates.
 - **Privacy**: collect only what quoting needs, enquiries deleted after a set period (suggest 24 months, to confirm with the company), privacy policy and cookie notice, no tracking cookies.
 - **Code quality**: TypeScript strict, ESLint + Prettier, clear folders, no dead code, README covering setup, environment variables, deployment and how to edit content.
-- **Testing**: Playwright end-to-end tests (navigation, quote form happy path and errors, mobile bar), Lighthouse CI targeting 95+ on mobile for Performance, Accessibility, Best Practices and SEO. GitHub Actions runs lint, type-check, tests and build on every push.
+- **Testing**: Playwright end-to-end tests (navigation, enquiry form happy path and errors, mobile bar), Lighthouse CI targeting 95+ on mobile for Performance, Accessibility, Best Practices and SEO. GitHub Actions runs lint, type-check, tests and build on every push.
 
 ## 8. Folder structure
 
 ```
 app/                 routes (one folder per page)
 components/          reusable UI components
-content/             business.ts, services/*.mdx, projects/*.mdx, sectors.json, faqs.json, testimonials.json
+content/             business.ts, services/*.mdx, projects/*.mdx, sectors.json, faqs.json, testimonials.json (no client names)
 lib/                 validation schema, Supabase, Resend, Turnstile, SEO helpers
 public/              logo, icons, project photos
 tests/               Playwright tests
@@ -177,7 +178,7 @@ Each phase ends with lint, type-check, tests and a production build passing, the
 | 1. Design | Both design directions mocked up; the chosen one turned into tokens and core components | **Pick a direction** |
 | 2. Homepage | Full homepage with placeholders and mobile bar | **Approve homepage** |
 | 3. Pages | All remaining pages and templates, content files, placeholders | Pages |
-| 4. Quote form | Form, Supabase table and storage, Resend emails, Turnstile, rate limiting, thank-you page, privacy and cookie pages | Test enquiry |
+| 4. Enquiry form | Form, Supabase table and storage, Resend emails, Turnstile, rate limiting, thank-you page, privacy and cookie pages | Test enquiry |
 | 5. SEO and quality | Metadata, JSON-LD, sitemap, OG images, redirects, analytics, headers, accessibility and Lighthouse fixes, full test suite | Lighthouse report |
 | 6. Content and launch | Company content and photos added, placeholders removed, launch checklist | **Go live** |
 
